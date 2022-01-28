@@ -104,3 +104,18 @@ function onClick(event){
 
      
  export default Folder;
+
+ //We need to solve this problem uisng different approach , we need to call the funcational compoent recursivly from 
+ // functional component 
+ /**
+  * function Explorer(item){
+  * const [expand,setExpand]=React.useState(false);
+  *
+  *    if(item.isFolder){
+  *   return()
+  *    }
+  * return(<div></div>)
+  * 
+  * }
+  * 
+  */
