@@ -1,4 +1,4 @@
- import React from 'react';
+ import React ,{useState} from 'react';
  import folderSchema from '../folderSchema';
  
 function temp(itemArr){
@@ -22,7 +22,7 @@ function temp(itemArr){
    
 }
 
- const Folder = props => {
+ const Folder2 = props => {
 
     const [state ,setState]=React.useState(folderSchema);
     const [itemIds,setItemIds]=React.useState(()=>{
@@ -103,7 +103,28 @@ function onClick(event){
  
 
      
+ //export default Folder;
+
+ const Folder=({item})=>{
+     const [expand,setExpand]=useState(true);
+
+     if(item.isFolder){
+        const temp=item.items.map((it)=>{
+           return (<Folder item={it}></Folder>)
+        })
+        return(<div onClick={(e)=>{
+            setExpand(!expand);
+            e.stopPropagation();
+        }} style={{fontWeight:"bold"}}>{item.name}<div style={{display:expand?"block":"none"}}>{temp}</div></div>)
+     }
+
+     return (<div style={{marginLeft:"10px"}}>{item.name}</div>)
+
+ }
+
+ 
  export default Folder;
+
 
  //We need to solve this problem uisng different approach , we need to call the funcational compoent recursivly from 
  // functional component 
