@@ -1,0 +1,48 @@
+.form-container {
+  position: relative;
+  width: 40%;
+}
+
+.form-suggestions-container {
+  display: flex;
+  position: absolute;
+  top: 2;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  overflow-y: scroll;
+  height: 150px;
+  padding: 5px;
+}
+
+::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+}
+.form-suggestions-container > div {
+  text-align: center;
+  margin: 4px 1px;
+}
+
+.input-container {
+  display: inline-flex;
+  position: relative;
+}
+
+.input {
+  z-index: 10;
+  background-color: transparent;
+}
+.input-container input:focus {
+  outline: none;
+}
+.hint {
+  display: inline-flex;
+  position: absolute;
+  z-index: -1;
+  opacity: 0.5;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
