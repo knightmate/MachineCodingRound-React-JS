@@ -1,11 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
-import Folder from './Cars24_folderStructure/index.jsx';
-import folderSchema from './folderSchema';
+import logo from "./logo.svg";
+import "./App.css";
+import Folder from "./Cars24_folderStructure/index.jsx";
+import folderSchema from "./folderSchema";
+import FancyAutoComplete from "./FancyAutoCompelte/index";
 function App() {
   return (
     <div className="App">
-       <Folder item={folderSchema}></Folder>
+      <FancyAutoComplete />
     </div>
   );
 }

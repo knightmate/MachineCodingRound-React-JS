@@ -1,6 +1,8 @@
 .form-container {
   position: relative;
-  width: 40%;
+  width: 60%;
+  margin: 40px;
+  border: 1px solid greenyellow;
 }
 
 .form-suggestions-container {
