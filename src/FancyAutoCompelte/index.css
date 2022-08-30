@@ -1,20 +1,28 @@
 .form-container {
   position: relative;
   width: 60%;
+  display: flex;
+  flex-direction: column;
   margin: 40px;
   border: 1px solid greenyellow;
 }
-
-.form-suggestions-container {
+.top-baner {
   display: flex;
+  height: 70%;
+}
+img {
+  width: 100%;
+}
+.form-suggestions-container {
   position: absolute;
-  top: 2;
+  top: 100%;
   flex-direction: column;
   justify-content: center;
   width: 100%;
+  background-color: white;
   overflow-y: scroll;
   height: 150px;
-  padding: 5px;
+  border: 1px solid gainsboro;
 }
 
 ::-webkit-scrollbar {
@@ -23,17 +31,21 @@
 }
 .form-suggestions-container > div {
   text-align: center;
-  margin: 4px 1px;
+  padding: 5px;
+  border: 1px solid gainsboro;
+  pointer-events: stroke;
 }
 
 .input-container {
   display: inline-flex;
   position: relative;
+  margin: 10px;
 }
 
 .input {
   z-index: 10;
   background-color: transparent;
+  width: 100%;
 }
 .input-container input:focus {
   outline: none;
@@ -47,4 +59,8 @@
   bottom: 0;
   left: 0;
   right: 0;
+}
+input {
+  border: none;
+  border-bottom: 1px solid;
 }

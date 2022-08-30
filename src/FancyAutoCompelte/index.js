@@ -1,5 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./index.css";
+import BANERIMAGE from "./topbaner.jpg";
+
 const listOfUPI = [
   "rbl",
   "paytm",
@@ -43,7 +45,8 @@ const FacnyAutoComplete = function (props) {
 
       console.log("filteredUPI", filteredUPI);
       //set the hint
-      const hint = filteredUPI[0].slice(bankUPI.length);
+
+      const hint = filteredUPI[0] ? filteredUPI[0]?.slice(bankUPI.length) : "";
       console.log("value", hint);
       setsuggestList(filteredUPI);
       setHint(value + hint);
@@ -52,6 +55,9 @@ const FacnyAutoComplete = function (props) {
 
   return (
     <div className="form-container">
+      <div className="top-baner">
+        <img src={BANERIMAGE} />
+      </div>
       <div className="input-container">
         <input value={hint} className="hint"></input>
 
@@ -62,23 +68,20 @@ const FacnyAutoComplete = function (props) {
           onKeyDown={(event) => {
             const { keyCode = null } = event;
             console.log("keycode", event.keyCode);
-            if (keyCode == 39) {
-              setInputVal(hint);
-              setsuggestList([]);
-              setHint("");
-            }
+            if (keyCode == 39) setInputVal(hint);
+            setsuggestList([]);
+            setHint("");
           }}
         ></input>
+        {suggestList.length > 0 && (
+          <div className="form-suggestions-container">
+            {suggestList.length &&
+              suggestList.map((item) => {
+                return <div className="suggested-bank">{item}</div>;
+              })}
+          </div>
+        )}
       </div>
-
-      {suggestList.length > 0 && (
-        <div className="form-suggestions-container">
-          {suggestList.length &&
-            suggestList.map((item) => {
-              return <div>{item}</div>;
-            })}
-        </div>
-      )}
     </div>
   );
 };
