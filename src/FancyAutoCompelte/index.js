@@ -43,7 +43,7 @@ const FacnyAutoComplete = function (props) {
         return pattern.test(upi);
       });
 
-      console.log("filteredUPI", filteredUPI);
+      
       //set the hint
 
       const hint = filteredUPI[0] ? filteredUPI[0]?.slice(bankUPI.length) : "";
