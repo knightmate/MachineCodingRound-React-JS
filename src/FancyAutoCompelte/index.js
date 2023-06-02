@@ -15,7 +15,7 @@ const listOfUPI = [
   "okaxis",
   "unionbank",
   "bankofmaharashtra",
-  "indusbank"
+  "indusbank",
 ];
 
 const FacnyAutoComplete = function (props) {
@@ -24,6 +24,7 @@ const FacnyAutoComplete = function (props) {
 
   //hint will be empty string in first render
   const [hint, setHint] = useState("");
+  const [targetedDiv, setTagatedDiv] = useState(-1);
 
   const onType = (event) => {
     console.log("onChagne", event);
@@ -43,7 +44,6 @@ const FacnyAutoComplete = function (props) {
         return pattern.test(upi);
       });
 
-      
       //set the hint
 
       const hint = filteredUPI[0] ? filteredUPI[0]?.slice(bankUPI.length) : "";
@@ -52,7 +52,33 @@ const FacnyAutoComplete = function (props) {
       setHint(value + hint);
     }
   };
-
+  const getTargetDiv = () => {
+    //index
+    return targetedDiv;
+  };
+  const highLightDiv = (suggestList, keycode) => {
+    switch (keycode) {
+      case 40: {
+        setTagatedDiv((targetDivRef) => {
+          if (targetDivRef >= 0) {
+            return targetDivRef + 1;
+          }
+          return 0;
+        });
+        return;
+      }
+      case 38: {
+        setTagatedDiv((targetDivRef) => {
+          if (targetDivRef >= 0) {
+            return targetDivRef - 1;
+          }
+          return 0;
+        });
+        return;
+      }
+    }
+  };
+  console.log("rndering", targetedDiv);
   return (
     <div className="form-container">
       <div className="top-baner">
@@ -69,6 +95,16 @@ const FacnyAutoComplete = function (props) {
             const { keyCode = null } = event;
             console.log("keycode", event.keyCode);
             if (keyCode == 39) setInputVal(hint);
+            if (keyCode == 40 || keyCode == 38) {
+              highLightDiv(suggestList, keyCode);
+              return;
+            }
+            if (keyCode == 13) {
+              const val = suggestList.filter((val, idx) => idx == targetedDiv);
+              setInputVal(inputVal + val);
+              setHint(inputVal + val);
+              return;
+            }
             setsuggestList([]);
             setHint("");
           }}
@@ -76,8 +112,30 @@ const FacnyAutoComplete = function (props) {
         {suggestList.length > 0 && (
           <div className="form-suggestions-container">
             {suggestList.length &&
-              suggestList.map((item) => {
-                return <div className="suggested-bank">{item}</div>;
+              suggestList.map((item, idx) => {
+                const backgroundColor =
+                  targetedDiv >= 0
+                    ? targetedDiv == idx
+                      ? "red"
+                      : "white"
+                    : "";
+
+                console.log(
+                  "backgroundColor",
+                  targetedDiv,
+                  idx,
+                  targetedDiv == idx,
+                  backgroundColor
+                );
+
+                return (
+                  <div
+                    style={{ backgroundColor: backgroundColor }}
+                    className="suggested-bank"
+                  >
+                    {item}
+                  </div>
+                );
               })}
           </div>
         )}
