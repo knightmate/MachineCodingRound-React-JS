@@ -31,7 +31,17 @@ function memoize(fn){
        return cache[key];
         }
        
-       const result=fn(...args);
+
+        /* Notes
+   1- By using fn.apply(this, args), you ensure that the fn function is executed within the context of the memoize function. This allows the fn function to access the surrounding scope and any variables or functions defined within the memoize function.
+    2-Using apply in this way allows you to dynamically invoke the fn function with the provided arguments, regardless of how the fn function was originally defined. It ensures that the this value is correctly set to the context of the memoize function.
+    */
+      /// const result=fn(...args);//pre implementation ->wrong approach
+      const result=fn.apply(this,args)
+
+      //End
+     
+
        cache[key]=result;
            console.log("Non cached result",args);
 
