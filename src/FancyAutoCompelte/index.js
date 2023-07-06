@@ -19,8 +19,14 @@ const listOfUPI = [
 ];
 
 const FacnyAutoComplete = function (props) {
+ 
   const [inputVal, setInputVal] = useState("");
   const [suggestList, setsuggestList] = useState([]);
+  
+  const [selectedUPIIndx,setSelectedUPIIndx]=useState(null);
+
+  const enterDown=40;
+  const enterUp=38;
 
   //hint will be empty string in first render
   const [hint, setHint] = useState("");
@@ -68,6 +74,22 @@ const FacnyAutoComplete = function (props) {
           onKeyDown={(event) => {
             const { keyCode = null } = event;
             console.log("keycode", event.keyCode);
+
+            if(enterUp){
+
+              setSelectedUPIIndx((pre)=>{
+               
+                if(pre==null)return 0;
+               
+                if(pre==(suggestList.length-1)){
+                  return 0;
+                }
+                return pre+1;
+
+              })
+              return;
+            }
+
             if (keyCode == 39) setInputVal(hint);
             setsuggestList([]);
             setHint("");
@@ -76,8 +98,9 @@ const FacnyAutoComplete = function (props) {
         {suggestList.length > 0 && (
           <div className="form-suggestions-container">
             {suggestList.length &&
-              suggestList.map((item) => {
-                return <div className="suggested-bank">{item}</div>;
+              suggestList.map((item,idx) => {
+                const backgroundColor=selectedUPIIndx==idx?"grey":"";
+                return <div style={{backgroundColor:backgroundColor}} className="suggested-bank">{item}</div>;
               })}
           </div>
         )}
