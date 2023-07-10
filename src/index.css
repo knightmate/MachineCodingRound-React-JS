@@ -13,8 +13,6 @@ code {
 }
 
 .App {
-  border: 1px solid red;
-  height: 600px;
+  flex-direction:"row";
   display: flex;
-  justify-content: center;
 }
