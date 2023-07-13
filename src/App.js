@@ -33,10 +33,18 @@ function App() {
       const Component = selectedObj.component;
       return (
         <div>
-          <h1>{selectedObj.title}</h1>
-          <h3>Challenge:</h3>
+          {/* <h1>{selectedObj.title}</h1>
+          <h3>Challenge:</h3> */}
           <p>{selectedObj.challenge}</p>
           <Component item={schema} tags={selectedObj.tags} />
+          <div className="component-list">
+        {components.map((component) => (
+          <h2
+            key={component.title}
+            style={{ cursor: "pointer" }}
+            onClick={() => handleComponentClick(component.title)}
+          >
+            {component.title}
         </div>
       );
     }
