@@ -33,18 +33,10 @@ function App() {
       const Component = selectedObj.component;
       return (
         <div>
-          {/* <h1>{selectedObj.title}</h1>
-          <h3>Challenge:</h3> */}
+          <h1>{selectedObj.title}</h1>
+          <h3>Challenge:</h3>
           <p>{selectedObj.challenge}</p>
           <Component item={schema} tags={selectedObj.tags} />
-          <div className="component-list">
-        {components.map((component) => (
-          <h2
-            key={component.title}
-            style={{ cursor: "pointer" }}
-            onClick={() => handleComponentClick(component.title)}
-          >
-            {component.title}
         </div>
       );
     }
@@ -74,3 +66,91 @@ function App() {
 }
 
 export default App;
+
+
+class Promise {
+  constructor(executor) {
+    this.state = 'pending';
+    this.value = undefined;
+    this.error = undefined;
+    this.onFulfilledCallbacks = [];
+    this.onRejectedCallbacks = [];
+
+    const resolve = (value) => {
+      if (this.state === 'pending') {
+        this.state = 'fulfilled';
+        this.value = value;
+        this.onFulfilledCallbacks.forEach((callback) => callback(this.value));
+      }
+    };
+
+    const reject = (error) => {
+      if (this.state === 'pending') {
+        this.state = 'rejected';
+        this.error = error;
+        this.onRejectedCallbacks.forEach((callback) => callback(this.error));
+      }
+    };
+
+    try {
+      executor(resolve, reject);
+    } catch (error) {
+      reject(error);
+    }
+  }
+
+  then(onFulfilled, onRejected) {
+    return new Promise((resolve, reject) => {
+      const fulfilledHandler = (value) => {
+        try {
+          if (typeof onFulfilled === 'function') {
+            const result = onFulfilled(value);
+            resolve(result);
+          } else {
+            resolve(value);
+          }
+        } catch (error) {
+          reject(error);
+        }
+      };
+
+      const rejectedHandler = (error) => {
+        try {
+          if (typeof onRejected === 'function') {
+            const result = onRejected(error);
+            resolve(result);
+          } else {
+            reject(error);
+          }
+        } catch (error) {
+          reject(error);
+        }
+      };
+
+      if (this.state === 'fulfilled') {
+        fulfilledHandler(this.value);
+      } else if (this.state === 'rejected') {
+        rejectedHandler(this.error);
+      } else {
+        this.onFulfilledCallbacks.push(fulfilledHandler);
+        this.onRejectedCallbacks.push(rejectedHandler);
+      }
+    });
+  }
+
+  catch(onRejected) {
+    return this.then(undefined, onRejected);
+  }
+
+  static resolve(value) {
+    return new Promise((resolve) => {
+      resolve(value);
+    });
+  }
+
+  static reject(error) {
+    return new Promise((resolve, reject) => {
+      reject(error);
+    });
+  }
+}
