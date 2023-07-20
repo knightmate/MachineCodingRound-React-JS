@@ -1,49 +1,68 @@
 import React, { useState } from "react";
+import FancyAutoComplete from "./FancyAutoCompelte";
+import Cars24_folderStructure from './Cars24_folderStructure'
+import schema from './folderSchema'
+const components = [
+  {
+    title: "FancyAutoCompelte",
+    challenge:
+      "Implement an autocomplete feature for a text input field using JavaScript. The autocomplete should provide suggestions when the user types the @ symbol",
+    tags: ["Flipkart", "Google"],
+    component: FancyAutoComplete
+  },
+  {
+    title: "Folder Structure",
+    challenge:
+      "Implement a folder-like structure in a React application, allowing users to navigate and interact with a hierarchical folder system. The challenge involves creating components and functionality to display and manipulate folders and files within the structure.",
+    tags: ["Cars24", "Meesho"],
+    component: Cars24_folderStructure
+  },
+  // Add more objects for other components
+];
 
-const FancyAutoComplete = () => {
-  const [inputValue, setInputValue] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
+function App() {
+  const [selectedComponent, setSelectedComponent] = useState("");
 
-  const handleInputChange = (event) => {
-    const value = event.target.value;
-    setInputValue(value);
+  const handleComponentClick = (title) => {
+    setSelectedComponent(title);
+  };
 
-    if (value.includes("@")) {
-      // Implement logic to fetch suggestions here
-      // For example, you can filter the suggestions from a list based on the input value
-      const filteredSuggestions = ["user1", "user2", "user3"].filter((suggestion) =>
-        suggestion.toLowerCase().includes(value.toLowerCase())
+  const renderComponent = () => {
+    const selectedObj = components.find((c) => c.title === selectedComponent);
+    if (selectedObj) {
+      const Component = selectedObj.component;
+      return (
+        <div>
+          <h1>{selectedObj.title}</h1>
+          <h3>Challenge:</h3>
+          <p>{selectedObj.challenge}</p>
+          <Component item={schema} tags={selectedObj.tags} />
+        </div>
       );
-      setSuggestions(filteredSuggestions);
-    } else {
-      setSuggestions([]);
     }
+    return null;
   };
-
-  const handleSuggestionClick = (suggestion) => {
-    setInputValue(suggestion);
-    setSuggestions([]);
-  };
+   
 
   return (
-    <div>
-      <input
-        type="text"
-        value={inputValue}
-        onChange={handleInputChange}
-        placeholder="Type @ to see suggestions"
-      />
-      {suggestions.length > 0 && (
-        <ul>
-          {suggestions.map((suggestion) => (
-            <li key={suggestion} onClick={() => handleSuggestionClick(suggestion)}>
-              {suggestion}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-};
+    <div className="App">
+      <div className="component-list">
+        {components.map((component) => (
+          <h2
+            key={component.title}
+            style={{ cursor: "pointer" }}
+            onClick={() => handleComponentClick(component.title)}
+          >
+            {component.title}
+          </h2>
+        ))}
+      </div>
 
-export default FancyAutoComplete;
+      
+  );
+}
+
+
+export default App;
+
+
