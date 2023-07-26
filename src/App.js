@@ -57,7 +57,13 @@ function App() {
           </h2>
         ))}
       </div>
- 
+
+      <div className="component-details">
+        {renderComponent()}
+      </div>
+    </div>
+  );
+}
 
 
 export default App;
