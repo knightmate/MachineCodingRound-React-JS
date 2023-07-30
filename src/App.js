@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import FancyAutoComplete from "./FancyAutoCompelte";
 import Cars24_folderStructure from './Cars24_folderStructure'
 import schema from './folderSchema'
+import { BrowserRouter } from 'react-router-dom';
+
 const components = [
   {
     title: "FancyAutoCompelte",
@@ -44,8 +46,10 @@ function App() {
   };
    
 
-  return (
-    <div className="App">
+  const RenderHome=()=>{
+
+    return(
+      <div className="App">
       <div className="component-list">
         {components.map((component) => (
           <h2
@@ -62,6 +66,32 @@ function App() {
         {renderComponent()}
       </div>
     </div>
+    )
+  }
+
+  return (
+
+  
+    <BrowserRouter basename="/MachineCodingRound-React-JS">
+      {/* Your app components */}
+      <div className="App">
+        {/* Your app components */}
+        <div className="component-list">
+          {/* Render your component titles here using components.map */}
+        </div>
+
+        <div className="component-details">
+          {/* Render your selected component here based on user click */}
+          <Switch>
+            <Route exact path="/" component={RenderHome} />
+             
+            <Route component={NotFound} />
+          </Switch>
+        </div>
+      </div>
+    </BrowserRouter>
+   
+     
   );
 }
 
