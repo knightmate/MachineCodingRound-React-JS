@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/MachineCodingRound-React-JS/build/static/css/main.a8fd7407.css",
-    "main.js": "/MachineCodingRound-React-JS/build/static/js/main.e8840256.js",
-    "static/js/787.20219452.chunk.js": "/MachineCodingRound-React-JS/build/static/js/787.20219452.chunk.js",
-    "static/media/topbaner.jpg": "/MachineCodingRound-React-JS/build/static/media/topbaner.71133fb1d3718859b509.jpg",
-    "index.html": "/MachineCodingRound-React-JS/build/index.html",
-    "main.a8fd7407.css.map": "/MachineCodingRound-React-JS/build/static/css/main.a8fd7407.css.map",
-    "main.e8840256.js.map": "/MachineCodingRound-React-JS/build/static/js/main.e8840256.js.map",
-    "787.20219452.chunk.js.map": "/MachineCodingRound-React-JS/build/static/js/787.20219452.chunk.js.map"
+    "main.css": "/knightmate/MachineCodingRound-React-JS/tree/master/build/static/css/main.a8fd7407.css",
+    "main.js": "/knightmate/MachineCodingRound-React-JS/tree/master/build/static/js/main.f7c4eb13.js",
+    "static/js/787.20219452.chunk.js": "/knightmate/MachineCodingRound-React-JS/tree/master/build/static/js/787.20219452.chunk.js",
+    "static/media/topbaner.jpg": "/knightmate/MachineCodingRound-React-JS/tree/master/build/static/media/topbaner.71133fb1d3718859b509.jpg",
+    "index.html": "/knightmate/MachineCodingRound-React-JS/tree/master/build/index.html",
+    "main.a8fd7407.css.map": "/knightmate/MachineCodingRound-React-JS/tree/master/build/static/css/main.a8fd7407.css.map",
+    "main.f7c4eb13.js.map": "/knightmate/MachineCodingRound-React-JS/tree/master/build/static/js/main.f7c4eb13.js.map",
+    "787.20219452.chunk.js.map": "/knightmate/MachineCodingRound-React-JS/tree/master/build/static/js/787.20219452.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a8fd7407.css",
-    "static/js/main.e8840256.js"
+    "static/js/main.f7c4eb13.js"
   ]
 }
