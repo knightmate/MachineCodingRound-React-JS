@@ -82,7 +82,9 @@ function App() {
 
         <div className="component-details">
           {/* Render your selected component here based on user click */}
-          
+          <Switch>
+            
+          </Switch>
         </div>
       </div>
     </BrowserRouter>
