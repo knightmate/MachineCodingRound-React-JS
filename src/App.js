@@ -83,7 +83,9 @@ function App() {
         <div className="component-details">
           {/* Render your selected component here based on user click */}
           <Switch>
-            
+            <Route exact path="/" component={RenderHome} />
+             
+            <Route component={NotFound} />
           </Switch>
         </div>
       </div>
