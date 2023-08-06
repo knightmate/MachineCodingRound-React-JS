@@ -85,7 +85,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={RenderHome} />
              
-            <Route component={NotFound} />
+             
           </Switch>
         </div>
       </div>
