@@ -33,7 +33,10 @@ function App() {
     const selectedObj = components.find((c) => c.title === selectedComponent);
     if (selectedObj) {
       const Component = selectedObj.component;
-      return ( 
+      return (
+        <div>
+          <h1>{selectedObj.title}</h1>
+          <h3>Challenge:</h3>
           <p>{selectedObj.challenge}</p>
           <Component item={schema} tags={selectedObj.tags} />
         </div>
