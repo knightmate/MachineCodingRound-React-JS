@@ -36,7 +36,8 @@ function App() {
       return (
         <div>
           <h1>{selectedObj.title}</h1>
-          ctedObj.challenge}</p>
+          <h3>Challenge:</h3>
+          <p>{selectedObj.challenge}</p>
           <Component item={schema} tags={selectedObj.tags} />
         </div>
       );
