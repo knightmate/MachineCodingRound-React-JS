@@ -3,6 +3,7 @@ import FancyAutoComplete from "./FancyAutoCompelte";
 import Cars24_folderStructure from './Cars24_folderStructure'
 import schema from './folderSchema'
 import { BrowserRouter } from 'react-router-dom';
+import DetectCircle from "./DetechOverLappingCircle";
 
 const components = [
   {
@@ -18,6 +19,13 @@ const components = [
       "Implement a folder-like structure in a React application, allowing users to navigate and interact with a hierarchical folder system. The challenge involves creating components and functionality to display and manipulate folders and files within the structure.",
     tags: ["Cars24", "Meesho"],
     component: Cars24_folderStructure
+  },
+  {
+    title: "Detech Circle",
+    challenge:
+      "IMplement circle.",
+    tags: ["Cars24", "Meesho"],
+    component: DetectCircle
   },
   // Add more objects for other components
 ];
@@ -71,26 +79,11 @@ function App() {
 
   return (
 
+    <div>
+       <DetectCircle/>
+    </div>
   
-    <BrowserRouter basename="/MachineCodingRound-React-JS">
-      {/* Your app components */}
-      <div className="App">
-        {/* Your app components */}
-        <div className="component-list">
-          {/* Render your component titles here using components.map */}
-        </div>
-
-        <div className="component-details">
-          {/* Render your selected component here based on user click */}
-          <Switch>
-            <Route exact path="/" component={RenderHome} />
-             
-            <Route component={NotFound} />
-          </Switch>
-        </div>
-      </div>
-    </BrowserRouter>
-   
+     
      
   );
 }
