@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import FancyAutoComplete from "./FancyAutoCompelte";
 import Cars24_folderStructure from './Cars24_folderStructure'
 import schema from './folderSchema'
-import { BrowserRouter } from 'react-router-dom';
-import DetectCircle from "./DetechOverLappingCircle";
-
+ import DetectCircle from "./DetechOverLappingCircle";
+ import TankChallenge from './ReactTankChallege/index'
 const components = [
   {
     title: "FancyAutoCompelte",
@@ -26,6 +25,13 @@ const components = [
       "IMplement circle.",
     tags: ["Cars24", "Meesho"],
     component: DetectCircle
+  },
+  {
+    title: "React Tank Challege",
+    challenge:
+      "tank Challege",
+    tags: ["Cars24", "Meesho"],
+    component: TankChallenge
   },
   // Add more objects for other components
 ];
@@ -80,7 +86,7 @@ function App() {
   return (
 
     <div>
-       <DetectCircle/>
+       <TankChallenge/>
     </div>
   
      
