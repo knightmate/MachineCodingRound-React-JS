@@ -39,7 +39,7 @@ const TankContainer: React.FC = () => {
    useEffect(()=>{
 
 
-     
+      
     if(!settleOn)return;
     
     setSettleOn(true)
@@ -74,21 +74,17 @@ const TankContainer: React.FC = () => {
      console.log("percentToSplit",FixPercent,FixPercentTemp)
  
    const interalvalId= setInterval(()=>{
-   
-    let areWaterLevelsEqual=true;
-    for(let i=0;i<tanks.length;i++){
-      if(tanks[0]?.height!=tanks[i+1]?.height){
-        areWaterLevelsEqual=false
-      }
-     }
-     
+         
+      
        setTanks((tanks)=>{
         const updatedTanks =  tanks.map((tank) => {
             
           const tankHeight = Number(tank.height);
 
-          const temp= tankHeight<percentToSplitTemp?Number(tankHeight + parseFloat(FixPercentTemp)):tank.height
-           const clickComponentTemp=tankHeight<=percentToSplitTemp?tankHeight:Number(tankHeight - parseFloat(FixPercent)); 
+          const temp7=tankHeight + parseFloat(FixPercentTemp)
+          const temp= tankHeight<percentToSplitTemp?Number(temp7>percentToSplitTemp?percentToSplitTemp:temp7):tank.height
+          const temp3=tankHeight - parseFloat(FixPercent)
+           const clickComponentTemp=tankHeight<=percentToSplitTemp?tankHeight:Number(temp3<percentToSplitTemp?percentToSplitTemp:temp3); 
               
  
            const waterLevel=tank.id==pressedButtonid?clickComponentTemp:temp
@@ -103,13 +99,25 @@ const TankContainer: React.FC = () => {
             height: tankWater,
           };
         });
+
+        let areWaterLevelsEqual=true;
+        for(let i=0;i<updatedTanks.length-1;i++){
+          if(updatedTanks[0]?.height!=updatedTanks[i+1]?.height){
+            areWaterLevelsEqual=false
+          }
+         }
+            
+         if(areWaterLevelsEqual){
+          console.log("Stopping the Settling ,clear",interalvalId)
+          clearInterval(interalvalId)
+          setSettleOn(false)
+        }  
+
         return updatedTanks
        })
-       if(areWaterLevelsEqual){
-        console.log("Stopping the Settling ,clear",interalvalId)
-        clearInterval(interalvalId)
-        return;
-      }  
+
+        
+        
        percentToSplit= percentToSplit-FixPercent;
       console.log("holder",percentToSplit);
   
@@ -157,6 +165,16 @@ const TankContainer: React.FC = () => {
 
   };
   const hanldeEmptyTank=(id)=>{
+    const updatedTanks=tanks.map((tank)=>{
+        
+      if(tank.id==id){
+        tank.height=0
+      }
+      return tank;
+     })
+     setTanks(updatedTanks);
+     setSettleOn(true)
+   //  setButtonPressed(id)
     
   }
   const settleTankWater = (height) => {
