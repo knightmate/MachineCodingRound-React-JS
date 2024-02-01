@@ -14,8 +14,10 @@ const MultiSearch = () => {
 
     async function handleSearch(){
 
-        if(searchTerm && !searchTerm.length)return;
+        setSuggestions([])
+        if(searchTerm=="" || !searchTerm.length)return;
 
+         
         const users=await getSearch(searchTerm);
          
         setSuggestions(users.users);
@@ -30,7 +32,7 @@ const MultiSearch = () => {
 
          
         const url=`https://dummyjson.com/users/search?q=${userName}`
-         
+          
        return fetch(url)
             .then(res => res.json())
             .then((users)=>{
@@ -40,8 +42,7 @@ const MultiSearch = () => {
             });
     }
     const handleInputChange = (event) => {
-        
-         
+        const value=event.target.value         
         setSearchTerm(event.target.value);
 
     };
@@ -58,28 +59,57 @@ const MultiSearch = () => {
         setSelectedItems(updatedItems);
     };
 
+    const onBackPress=()=>{
+
+       const udpatedList= selectedItems.pop()
+       setSelectedItems(udpatedList)
+
+    }
+
+    const removeSelected=(id)=>{
+
+         
+       const udpated= selectedItems.filter((item)=>item.id!=id);
+
+       setSelectedItems(udpated);
+
+
+    }
+
     return (
         <div className="multi-search-container">
-          <div className="search-bar">
-              {seggestions.map((seggestion) => (
-                 <div>{seggestion.firstName}</div>
-              ))}
-          
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={handleInputChange}
-            />
-            <button onClick={handleAddItem}>Add</button>
-          </div>
+         <div style={{margin:'30px'}}>
+      <div style={{ flexWrap:'wrap',flex:1,maxWidth:'700px',display: 'flex', alignItems: 'center', 
+      marginBottom: '10px' ,border:'2px solid grey',
+      borderRadius:'10px'}}>
+        {selectedItems.map((item) => (
+          <div key={item.id} style={{color:'white',backgroundColor:'black',margin:'3px',padding:'5px',borderRadius:'5px',border:'1px solid'}} key={item.id}>
+            {item.firstName}
+            <span onClick={()=>{
+           removeSelected(item.id)
+            }} style={{padding:'5px',cursor:'pointer'}}>❌</span>
+           </div>
+        ))}
+        <input
+         
+        style={{border:'none',outline:'none',margin:'10px',display:'flex',flex:1}}
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={handleInputChange}
+        />
+       </div>
+      </div>
           <div className="selected-items">
             <ul>
-              {selectedItems.map((item) => (
-                <li key={item}>
-                  {item}
-                  <button onClick={() => handleRemoveItem(item)}>Remove</button>
-                </li>
+              {seggestions.map((item) => (
+                <li style={{cursor:'pointer'}} onClick={()=>{
+                 
+                    setSelectedItems((preItem)=>[...preItem,item]);
+
+                }} key={item}>
+                  {item.firstName}
+                 </li>
               ))}
             </ul>
           </div>
