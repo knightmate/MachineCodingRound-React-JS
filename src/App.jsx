@@ -4,6 +4,7 @@ import Cars24_folderStructure from './Cars24_folderStructure'
 import schema from './folderSchema'
  import DetectCircle from "./DetechOverLappingCircle";
  import TankChallenge from './ReactTankChallege/index'
+import MultiSearch from "./MultiSearch";
 const components = [
   {
     title: "FancyAutoCompelte",
@@ -86,7 +87,7 @@ function App() {
   return (
 
     <div>
-       <TankChallenge/>
+      <MultiSearch/>
     </div>
   
      

@@ -1,25 +1,49 @@
 import React, { useEffect, useState } from 'react';
+import "./index.css";
 
 const MultiSearch = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedItems, setSelectedItems] = useState([]);
+    const [seggestions,setSuggestions]=useState([]);
+    
+     
+    console.log("seggestions",seggestions);
+
+
+    useEffect(handleSearch, [searchTerm]);
+
+    async function handleSearch(){
+
+        if(searchTerm && !searchTerm.length)return;
+
+        const users=await getSearch(searchTerm);
+         
+        setSuggestions(users.users);
+        
+        
 
 
 
-    useEffect(() => {
+    }
 
+    const getSearch = (userName) => {
 
-
-    }, searchTerm);
-
-    const getSearch = () => {
-
-        fetch('https://dummyjson.com/users/search?q=John')
+         
+        const url=`https://dummyjson.com/users/search?q=${userName}`
+         
+       return fetch(url)
             .then(res => res.json())
-            .then(console.log);
+            .then((users)=>{
+
+                return users;
+
+            });
     }
     const handleInputChange = (event) => {
+        
+         
         setSearchTerm(event.target.value);
+
     };
 
     const handleAddItem = () => {
@@ -35,28 +59,34 @@ const MultiSearch = () => {
     };
 
     return (
-        <div>
-            <div>
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    value={searchTerm}
-                    onChange={handleInputChange}
-                />
-                <button onClick={handleAddItem}>Add</button>
-            </div>
-            <div>
-                <ul>
-                    {selectedItems.map((item) => (
-                        <li key={item}>
-                            {item}
-                            <button onClick={() => handleRemoveItem(item)}>Remove</button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+        <div className="multi-search-container">
+          <div className="search-bar">
+              {seggestions.map((seggestion) => (
+                 <div>{seggestion.firstName}</div>
+              ))}
+          
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={handleInputChange}
+            />
+            <button onClick={handleAddItem}>Add</button>
+          </div>
+          <div className="selected-items">
+            <ul>
+              {selectedItems.map((item) => (
+                <li key={item}>
+                  {item}
+                  <button onClick={() => handleRemoveItem(item)}>Remove</button>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-    );
+      );
+    
 };
+
 
 export default MultiSearch;
