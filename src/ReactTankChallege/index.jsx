@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
  
 const TankChallenge: React.FC = () => {
   return (
@@ -11,6 +11,8 @@ const TankChallenge: React.FC = () => {
 
 const TankContainer: React.FC = () => {
   const [tankHeight, setTankHeight] = useState(10);
+  const      interalvalId=useRef();
+
   const tanksArray = new Array(3).fill().map((_, idx) => ({
     id: idx,
     height: 0,
@@ -20,8 +22,10 @@ const TankContainer: React.FC = () => {
   const [buttonPressed,setButtonPressed]=useState(false);
   const [pressedButtonid,setPressedButtonId]=useState();
   const [settleOn,setSettleOn]=useState(false);
-
+  
   const increaseHeight = (id,height) => {
+
+       console.log("INcreateing height",height);
 
        const updatedTanks=tanks.map((tank)=>{
         
@@ -35,17 +39,23 @@ const TankContainer: React.FC = () => {
      
    };
 
-
+   console.log("Cliekd ",settleOn);
+ 
    useEffect(()=>{
-
+ 
+        
+    if(!settleOn)return;
+    setSettleOn(false)
 
       
-    if(!settleOn)return;
-    
-    setSettleOn(true)
+    if(interalvalId.current){
+      console.log("Clearing timer");
 
-    const totalTankWater = tanks.reduce((acc, tank) => acc + tank.height, 0);
-  
+      clearInterval(interalvalId.current);
+    }
+
+    const totalTankWater = tanks.reduce((acc, tank) => acc + Number(tank.height), 0);
+        
     if (totalTankWater === 0) {
       console.log("No water in tanks");
       return;
@@ -57,15 +67,16 @@ const TankContainer: React.FC = () => {
       areWaterLevelsEqual=false
     }
    }
-
+ 
   if(areWaterLevelsEqual){
     console.log("Water Level Equalsss.....");
       return;
   }
   
-    let percentToSplit =  (totalTankWater / tanks.length).toFixed(1)
-    let percentToSplitTemp = (totalTankWater / tanks.length).toFixed(1)
+    let percentToSplit =  calculateEqualTankPercentages(totalTankWater,tanks.length)
+    let percentToSplitTemp =  calculateEqualTankPercentages(totalTankWater,tanks.length)
 
+     
    // let percentToSplit = (percentToSplit_ / 3).toFixed(1)
 
     const FixPercent=(percentToSplit / 3).toFixed(1);
@@ -73,33 +84,26 @@ const TankContainer: React.FC = () => {
 
      console.log("percentToSplit",FixPercent,FixPercentTemp)
  
-   const interalvalId= setInterval(()=>{
-         
+     interalvalId.current= setInterval(()=>{
       
+    console.log("tanks",tanks);
+        
        setTanks((tanks)=>{
+         
         const updatedTanks =  tanks.map((tank) => {
             
           const tankHeight = Number(tank.height);
+          const isClick=pressedButtonid==tank.id;
+           const updatedLevel=getPercentToAdd(Number(tankHeight),isClick,tanks.length,Number(percentToSplitTemp))
+           
+           console.log("---"+updatedLevel,percentToSplitTemp);
 
-          const temp7=tankHeight + parseFloat(FixPercentTemp)
-          const temp= tankHeight<percentToSplitTemp?Number(temp7>percentToSplitTemp?percentToSplitTemp:temp7):tank.height
-          const temp3=tankHeight - parseFloat(FixPercent)
-           const clickComponentTemp=tankHeight<=percentToSplitTemp?tankHeight:Number(temp3<percentToSplitTemp?percentToSplitTemp:temp3); 
-              
- 
-           const waterLevel=tank.id==pressedButtonid?clickComponentTemp:temp
-
-           console.log("debugging",waterLevel);
-
-          const tankWater =waterLevel//tank.height>percentToSplitTemp?temp2:temp;
-
-          
-                  return {
+             return {
             ...tank,
-            height: tankWater,
+            height: updatedLevel,
           };
         });
-
+          
         let areWaterLevelsEqual=true;
         for(let i=0;i<updatedTanks.length-1;i++){
           if(updatedTanks[0]?.height!=updatedTanks[i+1]?.height){
@@ -108,28 +112,30 @@ const TankContainer: React.FC = () => {
          }
             
          if(areWaterLevelsEqual){
-          console.log("Stopping the Settling ,clear",interalvalId)
-          clearInterval(interalvalId)
+          console.log("Stopping the Settling ,clear",interalvalId.current)
+          clearInterval(interalvalId.current)
           setSettleOn(false)
-        }  
-
+        }   
         return updatedTanks
        })
-
-        
-        
+ 
        percentToSplit= percentToSplit-FixPercent;
       console.log("holder",percentToSplit);
-  
-  
-        
+   
+       
     },1000);
       
-    return ()=>clearInterval(interalvalId);
+    return () => {
+       
+       
+      //clearInterval(interalvalId.current);
+  };
 
    },[settleOn])
+
    useEffect(()=>{
    
+     
      if(buttonPressed){
       intervalId=setInterval(()=>{
         const height=tanks[pressedButtonid].height+25;
@@ -174,7 +180,7 @@ const TankContainer: React.FC = () => {
      })
      setTanks(updatedTanks);
      setSettleOn(true)
-   //  setButtonPressed(id)
+     setPressedButtonId(id)
     
   }
   const settleTankWater = (height) => {
@@ -237,10 +243,63 @@ interface TankProps {
 const Tank: React.FC<TankProps> = ({ height=0,  }) => {
   return (
      <div style={{height:'200px',display:'flex',width:'100px',border:'2px solid black',alignItems:'flex-end',borderRadius:"0 0 0.5rem 0.5rem"}}>
-      <div style={{backgroundColor:'pink',height:`${height}%`,width:'100%',transition:'height 1s linear'}}></div>
+      <div style={{backgroundColor:'pink',height:`${height}%`,width:'100%',transition:'height 0.5s linear'}}></div>
      </div>
   
   );
 };
 
 export default TankChallenge;
+
+
+function calculateEqualTankPercentages(totalHeight, tankCount) {
+   
+
+  const percentToSplit = totalHeight / tankCount;
+ 
+ return  percentToSplit.toFixed(1);
+ 
+}
+
+
+
+function getPercentToAdd(tankheight,isClicked,noOfTank,splitedTankHeight){
+
+  const updateTankHeightAdded=tankheight+3>splitedTankHeight?splitedTankHeight:tankheight+3
+  const updateTankHeightRemoved=tankheight-3
+
+  const validateMe=(height)=>{
+
+    return height
+    
+   return height>splitedTankHeight?splitedTankHeight:height
+  }
+     if(isClicked ){
+          if(tankheight<splitedTankHeight){
+           
+            if(updateTankHeightAdded>splitedTankHeight){
+              return splitedTankHeight
+            }
+
+            return updateTankHeightAdded
+          }
+          
+         const temp= updateTankHeightRemoved<splitedTankHeight?splitedTankHeight:updateTankHeightRemoved
+
+         return validateMe(temp)
+     }
+     
+      if(tankheight>splitedTankHeight){
+
+        const te= tankheight-(3/noOfTank);
+        console.log("debuggerme",te);
+        
+       const temp=  updateTankHeightRemoved<splitedTankHeight?splitedTankHeight:te
+           
+       return validateMe(temp)
+      }
+      const t=  3/noOfTank+tankheight;
+      return t>splitedTankHeight?splitedTankHeight:t
+ 
+}
+
