@@ -11,7 +11,7 @@ const TankChallenge: React.FC = () => {
 
 const TankContainer: React.FC = () => {
   const [tankHeight, setTankHeight] = useState(10);
-  const      interalvalId=useRef();
+  const   interalvalId=useRef();
 
   const tanksArray = new Array(3).fill().map((_, idx) => ({
     id: idx,

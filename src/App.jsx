@@ -5,6 +5,7 @@ import schema from './folderSchema'
  import DetectCircle from "./DetechOverLappingCircle";
  import TankChallenge from './ReactTankChallege/index'
 import MultiSearch from "./MultiSearch";
+import SwitchCase from "./SwitchCase";
 const components = [
   {
     title: "FancyAutoCompelte",
@@ -87,7 +88,7 @@ function App() {
   return (
 
     <div>
-      <MultiSearch/>
+      <SwitchCase/>
     </div>
   
      
