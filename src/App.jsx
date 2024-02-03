@@ -5,8 +5,9 @@ import schema from './folderSchema'
  import DetectCircle from "./DetechOverLappingCircle";
  import TankChallenge from './ReactTankChallege/index'
 import MultiSearch from "./MultiSearch";
-import SwitchCase from "./SwitchCase";
-const components = [
+import SwitchCase from "./CustomSwitch";
+import Stepper from "./StepperComponent";
+ const components = [
   {
     title: "FancyAutoCompelte",
     challenge:
@@ -88,8 +89,8 @@ function App() {
   return (
 
     <div>
-      <SwitchCase/>
-    </div>
+      <Stepper/>
+     </div>
   
      
      
