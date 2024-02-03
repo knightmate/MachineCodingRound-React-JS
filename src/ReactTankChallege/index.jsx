@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
  
-const TankChallenge: React.FC = () => {
+const TankChallenge =() => {
   return (
-    <div>
+    <div style={{display:'flex',flexDirection:'column',alignItems:'center',flex:1}}>
       <h1>Tank Challenge</h1>
       <TankContainer />
     </div>
   );
 };
 
-const TankContainer: React.FC = () => {
+const TankContainer = () => {
   const [tankHeight, setTankHeight] = useState(10);
   const   interalvalId=useRef();
 
@@ -183,27 +183,8 @@ const TankContainer: React.FC = () => {
      setPressedButtonId(id)
     
   }
-  const settleTankWater = (height) => {
-    
- 
-    // const updatedTanks = tanks.map((tank) => {
-    //   const tankWater = tank.height / totalTankWater;
-    //   // const allocatedWater = tankWater * remainingWater;
-    //   // remainingWater -= allocatedWater;
   
-    //   return {
-    //     ...tank,
-    //     height: allocatedWater,
-    //   };
-    // });
-  
-    // setTanks(updatedTanks);
-
-    //console.log("Updated tanks:", updatedTanks);
-  };
-
-  console.log("tanks",tanks)
-  return (
+   return (
     <div style={{display:'flex',gap:'10px'}}>
       {
           tanks.map(({height,id})=>{
@@ -234,16 +215,12 @@ const TankContainer: React.FC = () => {
   );
 };
 
-interface TankProps {
-  height: number;
-  onIncreaseHeight: () => void;
-  onDecreaseHeight: () => void;
-}
+ 
 
-const Tank: React.FC<TankProps> = ({ height=0,  }) => {
+const Tank = ({ height=0,  }) => {
   return (
      <div style={{height:'200px',display:'flex',width:'100px',border:'2px solid black',alignItems:'flex-end',borderRadius:"0 0 0.5rem 0.5rem"}}>
-      <div style={{backgroundColor:'pink',height:`${height}%`,width:'100%',transition:'height 0.5s linear'}}></div>
+      <div style={{borderRadius:'2px',backgroundColor:'#48a8e8',height:`${height}%`,width:'100%',transition:'height 0.5s linear'}}></div>
      </div>
   
   );
@@ -264,6 +241,8 @@ function calculateEqualTankPercentages(totalHeight, tankCount) {
 
 
 function getPercentToAdd(tankheight,isClicked,noOfTank,splitedTankHeight){
+
+  noOfTank=noOfTank-1;
 
   const updateTankHeightAdded=tankheight+3>splitedTankHeight?splitedTankHeight:tankheight+3
   const updateTankHeightRemoved=tankheight-3

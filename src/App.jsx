@@ -88,8 +88,8 @@ function App() {
 
   return (
 
-    <div>
-      <Stepper/>
+    <div style={{display:'flex'}}>
+      <TankChallenge/>
      </div>
   
      
