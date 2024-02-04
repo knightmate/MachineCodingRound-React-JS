@@ -1,52 +1,78 @@
-import React  ,{useEffect, useState} from 'react';
+import React  ,{useEffect, useState,useRef} from 'react';
  
 const ColorBox = () => {
 
-    const boxes=[...new Array(9).fill(1)];
-    const [clikedBoxexId,setClickBoxIds]=useState([]);
-    const [clearingBoxes,setClearingBoxes]=useState(false)
+    const [boxes,setBoxes]=useState([...new Array(9).fill(1)].map(()=>{
+        return {id:Math.random().toString(),bgColor:'white'}
+    })); 
 
+    const [clikedBoxexId,setClickBoxIds]=useState([]);
+    let intervalId=useRef(null);
 
 
     console.log("Boxed",boxes);
 
     useEffect(()=>{
+  
 
-
-        if(isAllCheck()){
+        if(isAllCheck() && !intervalId.current){
+  
+                 
+               if(intervalId.current)return ;
           
-            let targetIndex=0;
-            const intervalId=setInterval(()=>{
+                intervalId.current=setInterval(()=>{
 
-                console.log("Interval started-Clearing the boxes!")
-                if(!clikedBoxexId.length){
-                    clearInterval(intervalId);
-                    return ;
-                }
+                console.log("Interval started-Clearing the boxes!",clikedBoxexId.length)
+                 
+                let removeId;
+                setClickBoxIds((ids)=>{
 
-             setClickBoxIds((pre)=>{
+                   removeId=[...ids].shift();
 
-                return pre.filter((box,index)=>index!=targetIndex);
+                    if(!removeId){
+                    clearInterval(intervalId.current);
+                    intervalId.current=null
+                   }
 
-             });
+                    console.log("IDSS",removeId,ids);
 
-             targetIndex++;
+                    return [...ids.filter((id)=>id!=removeId)];
 
+                });
+                createBoxes(removeId,false);
 
             },1000);
 
         };
 
 
-    },[clikedBoxexId]);
-    const handleClickBox=(id)=>{
+        
 
+    },[clikedBoxexId]);
+    
+    const handleClickBox=(clickedId,isClick=true)=>{
          
-        setClickBoxIds((pre)=>[...pre,id]);
-         
+       createBoxes(clickedId,isClick);
+       setClickBoxIds((pre)=>[...pre,clickedId]);
+ 
 
     }
 
+
+    const createBoxes=(clickedId,isClick=true)=>{
+
+        const updatedBoxes= boxes.map((box)=>{
+            const bgColor_=isClick?'green':'white'
+              
+            if(box.id==clickedId){
+                box.bgColor=bgColor_
+            } 
+            return box
+        })
+       setBoxes(updatedBoxes);
+        
+    }
+    
     const isAllCheck=()=>{
 
        return  clikedBoxexId.length==boxes.length;
@@ -64,10 +90,9 @@ const ColorBox = () => {
   return (
     <div style={{width:'350px',display:'flex',gap:'10px',flexDirection:'row',flexWrap:'wrap'}}>
         {
-        boxes.map((box,index)=>{
+        boxes.map(({id,bgColor},index)=>{
             
-            const bgColor=clikedBoxexId.includes(index)?"green":'white';
-            return<div style={{width:'100px',height:'100px'}} onClick={()=>handleClickBox(index)}>
+             return<div style={{width:'100px',height:'100px'}} onClick={()=>handleClickBox(id,true)}>
            { renderBox(bgColor)}
             </div>
 
