@@ -7,6 +7,7 @@ import schema from './folderSchema'
 import MultiSearch from "./MultiSearch";
 import SwitchCase from "./CustomSwitch";
 import Stepper from "./StepperComponent";
+import ColorBox from "./ColorBox";
  const components = [
   {
     title: "FancyAutoCompelte",
@@ -89,7 +90,7 @@ function App() {
   return (
 
     <div style={{display:'flex'}}>
-      <TankChallenge/>
+       <ColorBox/>
      </div>
   
      

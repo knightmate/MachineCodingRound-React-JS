@@ -39,8 +39,7 @@ const TankContainer = () => {
      
    };
 
-   console.log("Cliekd ",settleOn);
- 
+  
    useEffect(()=>{
  
         
