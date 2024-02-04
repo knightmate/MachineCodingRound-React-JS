@@ -8,6 +8,7 @@ import MultiSearch from "./MultiSearch";
 import SwitchCase from "./CustomSwitch";
 import Stepper from "./StepperComponent";
 import ColorBox from "./ColorBox";
+import CountryCapitalGame from "./CapitalGame";
  const components = [
   {
     title: "FancyAutoCompelte",
@@ -89,9 +90,7 @@ function App() {
 
   return (
 
-    <div style={{display:'flex'}}>
-       <ColorBox/>
-     </div>
+     <CountryCapitalGame/>
   
      
      

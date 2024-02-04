@@ -1,0 +1,26 @@
+
+
+.game{
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  max-width: 800px;
+  flex-wrap: wrap;
+}
+
+.game-board{
+    display: flex;
+   flex-wrap: wrap;
+   
+}
+.game-card{
+
+    padding: 10px;
+    border:1px solid black;
+    font-size:10;
+    display: flex;
+    cursor: pointer;
+   
+
+}
+ 
