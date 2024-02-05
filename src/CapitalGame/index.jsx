@@ -68,7 +68,7 @@ const shuffleArray = (array) => {
       const isValidMatch=validateSelected();
       const [one,two]=selected;
 
-      const color=isValidMatch?"green":'red';
+      const color=isValidMatch?"#2BC612":'red';
       
       updateItem(one.id,color,true);
       updateItem(two.id,color,true);
@@ -202,9 +202,9 @@ console.log("shuffledStrings",shuffledStrings);
       <h1>Country Capital Game</h1>
       <ul className='game-board'>
         {shuffledStrings.length==0 && "Congratulation'S ,YOU WON!"}
-        {shuffledStrings.map(({value,isError,isSelected,color}, index)=>{
+        {shuffledStrings.map(({value,color}, index)=>{
       return(
-        <li style={{borderColor:color}} 
+        <li style={{borderColor:color,margin:'10px',borderWidth:'4px',borderRadius:'10px'}} 
         className='game-card' 
         key={index} 
         onClick={() => handleCountryClick(index)}>

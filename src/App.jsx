@@ -91,7 +91,7 @@ function App() {
 
   return (
 
-     <Counter/>
+     <CountryCapitalGame/>
   
      
      
