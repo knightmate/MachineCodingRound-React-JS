@@ -90,7 +90,7 @@ function App() {
 
   return (
 
-     <CountryCapitalGame/>
+     <Counter/>
   
      
      
@@ -101,3 +101,16 @@ function App() {
 export default App;
 
 
+
+
+const Counter=()=>{
+const [counter,setCounter]=useState(0);
+
+
+  return(<>
+  <div >{counter}</div>
+  <button   onClick={()=>setCounter((pre)=>pre+1)}>
+    Pree ME
+    </button>
+  </>)
+}

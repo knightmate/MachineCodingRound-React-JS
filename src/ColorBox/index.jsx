@@ -20,10 +20,7 @@ const ColorBox = () => {
                  
                if(intervalId.current)return ;
           
-                intervalId.current=setInterval(()=>{
-
-                console.log("Interval started-Clearing the boxes!",clikedBoxexId.length)
-                 
+                intervalId.current=setInterval(()=>{                 
                 let removeId;
                 setClickBoxIds((ids)=>{
 
