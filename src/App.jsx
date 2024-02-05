@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import FancyAutoComplete from "./FancyAutoCompelte";
 import Cars24_folderStructure from './Cars24_folderStructure'
 import schema from './folderSchema'
@@ -9,6 +9,7 @@ import SwitchCase from "./CustomSwitch";
 import Stepper from "./StepperComponent";
 import ColorBox from "./ColorBox";
 import CountryCapitalGame from "./CapitalGame";
+import useWhyDidYouUpdate from './useWhyDidYouUpdate'
  const components = [
   {
     title: "FancyAutoCompelte",
@@ -101,16 +102,26 @@ function App() {
 export default App;
 
 
-
-
+ 
 const Counter=()=>{
 const [counter,setCounter]=useState(0);
+ const fn=useCallback(()=>{
 
+ },[])
+ const object={name:counter};
 
   return(<>
-  <div >{counter}</div>
-  <button   onClick={()=>setCounter((pre)=>pre+1)}>
+  <CounterVal name={counter} object={object}    />
+   <button   onClick={()=>setCounter((pre)=>pre+1)}>
     Pree ME
     </button>
   </>)
 }
+const CounterVal=(props)=>{
+
+     useWhyDidYouUpdate("Counter",props)
+  
+    return(<>
+     <span>{props.counter}</span>
+    </>)
+  }
