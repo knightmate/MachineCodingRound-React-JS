@@ -8,6 +8,8 @@ import MultiSearch from "./MultiSearch";
 import SwitchCase from "./CustomSwitch";
 import Stepper from "./StepperComponent";
 import ColorBox from "./ColorBox";
+import Comment from "./Comment";
+
 import CountryCapitalGame from "./CapitalGame";
 import useWhyDidYouUpdate from './useWhyDidYouUpdate'
  const components = [
@@ -91,7 +93,7 @@ function App() {
 
   return (
 
-     <CountryCapitalGame/>
+     <Comment/>
   
      
      
