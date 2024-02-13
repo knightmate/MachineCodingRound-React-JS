@@ -9,6 +9,17 @@ const Comment = ({ onSubmit }) => {
   const [commentValue, setCommentValue] = useState();
   const [commentItem, setCommentItem] = useState([]);
 
+  const onAction=(action="Edit"|"Add"|"Delete")=>{
+
+
+     
+  }
+  const [commentTree,setCommentTree]=useState({
+    id:1,
+    item:[{id:3,item:[],value:"Good Product"},{id:4,item:[],value:"Not Product"},{id:5,item:[],value:"Great Product"}]
+  });
+
+
   const handleSubmit = (event) => {
     const val = event.target.value
     const comment = { id: new Date().toLocaleString(), comment: commentValue, replay: false, edit: false,replies:[] };
@@ -53,24 +64,28 @@ const Comment = ({ onSubmit }) => {
     <div>
       <input type="text" value={commentValue} onChange={(event) => setCommentValue(event.target.value)} />
       <button onClick={handleSubmit}>Comment</button>
-      <CommentActions comments={comments} commentItem={commentItem} onAction={(action, id) => {
+     {
+      commentTree.item.map((comment)=>{
+        return   <CommentActions  commentItem={comment} onAction={(action, id) => {
          
-        switch (action) {
-          case "edit": {
-            console.log("EDITED VAL",id,action);
-          const updatedItem=  findCommentById(commentItem,id)
-           
-           setCommentItem((pre)=>[...pre]);
-            break; 
+          switch (action) {
+            case "edit": {
+              console.log("EDITED VAL",id,action);
+            const updatedItem=  findCommentById(commentItem,id)
+             
+             setCommentItem((pre)=>[...pre]);
+              break; 
+            }
+            case "delete": {
+  
+            }
+            case "reply": {
+  
+            }
           }
-          case "delete": {
-
-          }
-          case "reply": {
-
-          }
-        }
-      }} />
+        }} />
+      })
+     }
     </div>
   );
 };
@@ -79,54 +94,50 @@ export default Comment;
 
 
 const CommentActions = ({
-  onAction,
-  showSaveButton = false,
-  showCancelButton = false,
-  onSave,
-  onCancel,
-  comments,
-  commentItem,
-  onChange
+   commentItem,
+   onAction
 }) => {
 
   const handleAction = (action,id) => {
-    onAction(action,id);
+    //onAction(action,id);
   };
 
-
-  const renderCommentBox = (value,id) => {
-  console.log("id",id);
-    return (
+   
+  const renderCommentBox = (commentItem) => {
+    const {id,value}=commentItem
+     return (
       <div style={{ display: 'flex', flexDirection: 'column', width: 300, border: '2px solid', borderRadius: '5px', padding: '5px' }}>
         <span style={{}}>{value}</span>
         <div style={{ gap: '5px', display: 'flex' }}>
           <button onClick={() => handleAction('reply',id)}>Reply</button>
           <button onClick={() => handleAction('edit',id)}>Edit</button>
           <button onClick={() => handleAction('delete',id)}>Delete</button>
-          {showSaveButton && <button onClick={onSave}>Save</button>}
-          {showCancelButton && <button onClick={onCancel}>Cancel</button>}
+            <button onClick={()=>{
+
+            }}>Save</button>
+            <button onClick={()=>{
+
+            }}>Cancel</button>
         </div>
       </div>
     )
 
   }
   
-  if(!commentItem.length || !comments.length)return<></>
-
  
+   
   return (
       <>
       {
-      commentItem.map((comment)=>{
-       return renderCommentBox(comment.comment,comment.id)
+      commentItem.item.map(({item,value,id})=>{
+       return renderCommentBox(value,id)
       })
-     
       }
-      {
+      {/* {
         commentItem?.replay?.length &&  commentItem?.replay?.map((replay)=>{
-          return  <CommentActions comments={comments} commentItem={replay} onChange={onChange} handleAction={handleAction} onAction={onAction} />
+          return  <CommentActions  commentItem={replay} onAction={onAction}   />
         })
-      }
+      } */}
       
       </>
 
