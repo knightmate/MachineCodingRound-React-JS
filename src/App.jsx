@@ -12,7 +12,7 @@ import Comment from "./Comment";
 import CountryCapitalGame from "./CapitalGame";
 import useWhyDidYouUpdate from './useWhyDidYouUpdate';
 import TrafficLight from './TrafficLight';
-
+import ProgressBar from './ProgressBar/index';
 const components = [
   {
     title: "FancyAutoCompelte",
@@ -49,6 +49,14 @@ const components = [
     tags: ["Cars24", "Swiggy"],
     component: TrafficLight
   },
+  {
+    title: "ProgressBar ",
+    challenge:
+      "Progress bar",
+    tags: ["Cars24", "Swiggy"],
+    component: ProgressBar
+  },
+   
   // Add more objects for other components
 ];
 
