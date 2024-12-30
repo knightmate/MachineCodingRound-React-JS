@@ -1,46 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import "./index.css";
-import { Children } from 'react/cjs/react.production.min';
 import Light from './Component/Light';
 
+const TrafficLight = () => {
+  const lightConfig = [
+    { color: "red", duration: 4000, next: 1 },
+    { color: "yellow", duration: 2000, next: 2 },
+    { color: "green", duration: 3000, next: 0 },
+  ];
 
- 
-const TrafficLight = ({ children}) => {
-    const [activeLight,setActiveLight]=useState(0);
-    const interval=[4000,2000,3000];
-    const intervalIndex=[1,2,0];
-      
- 
-    useEffect(()=>{
+  const [activeLight, setActiveLight] = useState(0);
 
-     let current =activeLight;
+  useEffect(() => {
+    const intervalId = setTimeout(() => {
+      setActiveLight(lightConfig[activeLight].next);
+    }, lightConfig[activeLight].duration);
 
-     if(current>2){
-        setActiveLight(0)
-        return;
-     }
-     triggerInternal(current);
-  
-    },[activeLight]);
+    return () => clearTimeout(intervalId); // Cleanup on unmount
+  }, [activeLight]);
 
-
-    let triggerInternal=function(index){
-         
-        setTimeout(()=>{
-            setActiveLight(intervalIndex[index]);
-        },interval[index])
-
-
-    }
-
-   console.log("activeLight",intervalIndex[activeLight]);
   return (
-     <div>
-        <Light color={"red"} isActive={activeLight==0}/>
-        <Light color={"yellow"} isActive={activeLight==1}/>
-        <Light color={"green"} isActive={activeLight==2}/>
-
-     </div>
+    <div>
+      {lightConfig.map((light, index) => (
+        <Light
+          key={light.color}
+          color={light.color}
+          isActive={activeLight === index}
+        />
+      ))}
+    </div>
   );
 };
 
