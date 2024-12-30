@@ -2,17 +2,18 @@ import React, { useCallback, useState } from "react";
 import FancyAutoComplete from "./FancyAutoCompelte";
 import Cars24_folderStructure from './Cars24_folderStructure'
 import schema from './folderSchema'
- import DetectCircle from "./DetechOverLappingCircle";
- import TankChallenge from './ReactTankChallege/index'
+import DetectCircle from "./DetechOverLappingCircle";
+import TankChallenge from './ReactTankChallege/index';
 import MultiSearch from "./MultiSearch";
 import SwitchCase from "./CustomSwitch";
 import Stepper from "./StepperComponent";
 import ColorBox from "./ColorBox";
 import Comment from "./Comment";
-
 import CountryCapitalGame from "./CapitalGame";
-import useWhyDidYouUpdate from './useWhyDidYouUpdate'
- const components = [
+import useWhyDidYouUpdate from './useWhyDidYouUpdate';
+import TrafficLight from './TrafficLight';
+
+const components = [
   {
     title: "FancyAutoCompelte",
     challenge:
@@ -41,6 +42,13 @@ import useWhyDidYouUpdate from './useWhyDidYouUpdate'
     tags: ["Cars24", "Meesho"],
     component: TankChallenge
   },
+  {
+    title: "Traffic Light",
+    challenge:
+      "traffic light-3",
+    tags: ["Cars24", "Swiggy"],
+    component: TrafficLight
+  },
   // Add more objects for other components
 ];
 
@@ -56,7 +64,7 @@ function App() {
     if (selectedObj) {
       const Component = selectedObj.component;
       return (
-        <div>
+        <div className="component-details">
           <h1>{selectedObj.title}</h1>
           <h3>Challenge:</h3>
           <p>{selectedObj.challenge}</p>
@@ -64,66 +72,34 @@ function App() {
         </div>
       );
     }
-    return null;
+    return <p>Select a component from the list</p>;
   };
-   
 
-  const RenderHome=()=>{
-
-    return(
-      <div className="App">
-      <div className="component-list">
+  return (
+    <div style={{ display: "flex", height: "100vh" }}>
+      {/* Left: Static List */}
+      <div style={{ width: "25%", borderRight: "1px solid #ccc", padding: "10px" }}>
+        <h2>Components</h2>
         {components.map((component) => (
-          <h2
+          <h3
             key={component.title}
-            style={{ cursor: "pointer" }}
+            style={{
+              cursor: "pointer",
+              padding: "10px 0",
+              borderBottom: "1px solid #eee",
+              color: selectedComponent === component.title ? "blue" : "black"
+            }}
             onClick={() => handleComponentClick(component.title)}
           >
             {component.title}
-          </h2>
+          </h3>
         ))}
       </div>
 
-      <div className="component-details">
-        {renderComponent()}
-      </div>
+      {/* Right: Dynamic Component */}
+      <div style={{ flex: 1, padding: "20px" }}>{renderComponent()}</div>
     </div>
-    )
-  }
-
-  return (
-
-     <Comment/>
-  
-     
-     
   );
 }
 
-
 export default App;
-
-
- 
-const Counter=()=>{
-const [counter,setCounter]=useState(0);
- const fn=useCallback(()=>{
-
- },[])
- const object={name:counter};
-
-  return(<>
-  <CounterVal name={counter} object={object}    />
-   <button   onClick={()=>setCounter((pre)=>pre+1)}>
-    Pree ME
-    </button>
-  </>)
-}
-const CounterVal=(props)=>{
-
-     useWhyDidYouUpdate("Counter",props)
-  
-    return(<>
-     <span>{props.counter}</span>
-    </>)
-  }
