@@ -15,7 +15,7 @@ const TrafficLight = () => {
       setActiveLight(lightConfig[activeLight].next);
     }, lightConfig[activeLight].duration);
 
-    return () => clearTimeout(intervalId); // Cleanup on unmount
+    return () => clearTimeout(intervalId);  
   }, [activeLight]);
 
   return (

@@ -14,6 +14,14 @@ import useWhyDidYouUpdate from './useWhyDidYouUpdate';
 import TrafficLight from './TrafficLight';
 import ProgressBar from './ProgressBar/index';
 const components = [
+
+  {
+    title: "ColorBox",
+    challenge:
+      "",
+    tags: ["Flipkart", "Google"],
+    component: ColorBox
+  },
   {
     title: "FancyAutoCompelte",
     challenge:
