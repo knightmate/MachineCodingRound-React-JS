@@ -1,101 +1,86 @@
-import React  ,{useEffect, useState,useRef} from 'react';
- 
+import React, { useEffect, useState, useRef } from "react";
+
 const ColorBox = () => {
+  const [boxes, setBoxes] = useState(
+    Array.from({ length: 9 }, () => ({
+      id: Math.random().toString(),
+      isGreen: false,
+    }))
+  );
+  const [clickedBoxIds, setClickedBoxIds] = useState([]);
+  const intervalId = useRef(null);
 
-    const [boxes,setBoxes]=useState([...new Array(9).fill(1)].map(()=>{
-        return {id:Math.random().toString(),bgColor:'white'}
-    })); 
+  // Effect to handle resetting boxes when all are clicked
+  useEffect(() => {
 
-    const [clikedBoxexId,setClickBoxIds]=useState([]);
-    let intervalId=useRef(null);
+    if (clickedBoxIds.length === boxes.length && !intervalId.current) {
+      intervalId.current = setInterval(() => {
+        console.log("fdfdf")
+        setClickedBoxIds((prevIds) => {    
 
+          console.log('clickedBoxIds');
 
-    console.log("Boxed",boxes);
-
-    useEffect(()=>{
-  
-
-        if(isAllCheck() && !intervalId.current){
-  
-                 
-               if(intervalId.current)return ;
-          
-                intervalId.current=setInterval(()=>{                 
-                let removeId;
-                setClickBoxIds((ids)=>{
-
-                   removeId=[...ids].shift();
-
-                    if(!removeId){
-                    clearInterval(intervalId.current);
-                    intervalId.current=null
-                   }
-
-                    console.log("IDSS",removeId,ids);
-
-                    return [...ids.filter((id)=>id!=removeId)];
-
-                });
-                createBoxes(removeId,false);
-
-            },1000);
-
-        };
-
-
-        
-
-    },[clikedBoxexId]);
-    
-    const handleClickBox=(clickedId,isClick=true)=>{
-         
-       createBoxes(clickedId,isClick);
-       setClickBoxIds((pre)=>[...pre,clickedId]);
- 
-
+          if (prevIds.length === 0) {
+            clearInterval(intervalId.current);
+            intervalId.current = null;
+            return prevIds;
+          }
+          const [removedId, ...remainingIds] = prevIds;
+          updateBoxColor(removedId, false);
+          return remainingIds;
+        });
+      }, 1000);
     }
 
+   // return () => clearInterval(intervalId.current); // Cleanup on unmount
+  }, [clickedBoxIds, boxes.length]);
 
-    const createBoxes=(clickedId,isClick=true)=>{
-
-        const updatedBoxes= boxes.map((box)=>{
-            const bgColor_=isClick?'green':'white'
-              
-            if(box.id==clickedId){
-                box.bgColor=bgColor_
-            } 
-            return box
-        })
-       setBoxes(updatedBoxes);
-        
+  const handleBoxClick = (clickedId) => {
+    if (!clickedBoxIds.includes(clickedId)) {
+      setClickedBoxIds((prev) => [...prev, clickedId]);
+      updateBoxColor(clickedId, true);
     }
-    
-    const isAllCheck=()=>{
+  };
 
-       return  clikedBoxexId.length==boxes.length;
+  const updateBoxColor = (id, isGreen) => {
+    setBoxes((prevBoxes) =>
+      prevBoxes.map((box) =>
+        box.id === id ? { ...box, isGreen } : box
+      )
+    );
+  };
 
-    }
-    
-    const renderBox=(bgColor="green")=>{
+  const renderBox = (isGreen) => (
+    <div
+      style={{
+        backgroundColor: isGreen ? "green" : "white",
+        width: "100%",
+        height: "100%",
+        border: "1px solid black",
+      }}
+    />
+  );
 
-        return (
-            <div   style={{backgroundColor:bgColor,width:'100%',height:'100px',border:'1px solid black'}}>
-
-            </div>
-        )
-    }
   return (
-    <div style={{width:'350px',display:'flex',gap:'10px',flexDirection:'row',flexWrap:'wrap'}}>
-        {
-        boxes.map(({id,bgColor},index)=>{
-            
-             return<div style={{width:'100px',height:'100px'}} onClick={()=>handleClickBox(id,true)}>
-           { renderBox(bgColor)}
-            </div>
-
-        })
-        }
-     </div>
+    <div
+      style={{
+        width: "350px",
+        display: "flex",
+        gap: "10px",
+        flexDirection: "row",
+        flexWrap: "wrap",
+      }}
+    >
+      {boxes.map(({ id, isGreen }) => (
+        <div
+          key={id}
+          style={{ width: "100px", height: "100px", cursor: "pointer" }}
+          onClick={() => handleBoxClick(id)}
+        >
+          {renderBox(isGreen)}
+        </div>
+      ))}
+    </div>
   );
 };
 
