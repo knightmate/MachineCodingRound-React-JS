@@ -1,23 +1,23 @@
 import React,{useEffect,useState} from "react";
-
+import Profile from './component/Profile'
+import Settings from "./component/Settings";
+import Intrest from "./component/Intrest";
+/**
+ * Json
+ * Name (validation for name -length 4)(required)
+ * Age(18+ and Number)(required)
+ * 
+ */
 
 //profile ,  interest  and settings
 let MultiStepForm=function(props){
-   
-   const form= [{title:"Profile",id:1},{title:"Intrest",id:2},{title:"Settings",id:3}]
+   const form= [{title:"Profile",id:0,component:<Profile age={22} name={"meghraj"}/>},{title:"Intrest",id:2,component:<Settings/>},
+    {title:"Settings",id:2,component:<Settings/>}]
    const [selectedIndex,setSelectedIndex]=useState(0);//take default and make this customHooks
    
+ 
 
-   const renderButton=function(){
-
-    if(selectedIndex==form.length-1)return(
-        <>
-        <button>Submit</button>
-        </>
-    )
-
-   }
-
+   console.log("selectedInex",selectedIndex);
    //Id- pre next submit
    let onClick=function(id){
    
@@ -38,21 +38,26 @@ let MultiStepForm=function(props){
      }
 
    }
+   console.log('form','selectedInex',form);
 return(
     <>
     MulitStepper Form
-
     <div style={{display:'flex',flexDirection:'row'}}>
      {
-        form.map(({title,id},index)=>{
+        form.map(({title,id,component},index)=>{
             return(
+                <> 
                 <div style={{cursor:'pointer'}} onClick={()=>setSelectedIndex(index)}>
                     <h2 style={{margin: '10px',background:selectedIndex===index?"yellow":""}}>{title}</h2>
+
                 </div>
+                </>
+            
             )
         })
      }
      </div>
+     {form[selectedIndex].component}
      {
          selectedIndex==form.length>0 && (
             <>
@@ -74,9 +79,7 @@ return(
             <button onClick={()=>onClick("submit")}>Submit</button>
             </>
         )
-     }
-    
-     
+     } 
     </>
 )
 
