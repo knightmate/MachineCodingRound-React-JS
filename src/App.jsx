@@ -13,8 +13,17 @@ import CountryCapitalGame from "./CapitalGame";
 import useWhyDidYouUpdate from './useWhyDidYouUpdate';
 import TrafficLight from './TrafficLight';
 import ProgressBar from './ProgressBar/index';
-const components = [
+import MultiStepForm from './Zepto-Form';
 
+ 
+const components = [
+  {
+    title: "MultiStepForm",
+    challenge:
+      "",
+    tags: ["Flipkart", "Zepto-SDE2"],
+    component: MultiStepForm
+  },
   {
     title: "ColorBox",
     challenge:
