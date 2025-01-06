@@ -3,7 +3,7 @@ import React ,{useState,useEffect}from "react";
 
 const useMultiStep=function(steps){
  
-    const context=React.useContext({steps:steps});
+  //  const context=React.useContext({steps:steps});
     const [selectedStep,setSelectedStep]=useState(1);
     
 
