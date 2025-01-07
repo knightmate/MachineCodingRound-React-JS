@@ -4,8 +4,11 @@ const TankChallenge =() => {
   return (
     <div style={{display:'flex',flexDirection:'column',alignItems:'center',flex:1}}>
       <h1>Tank Challenge</h1>
+      <h2>How does it works?
+        -Keep Pressing the Add tank button
+      </h2>
       <TankContainer />
-    </div>
+    </div> 
   );
 };
 
@@ -24,8 +27,6 @@ const TankContainer = () => {
   const [settleOn,setSettleOn]=useState(false);
   
   const increaseHeight = (id,height) => {
-
-       console.log("INcreateing height",height);
 
        const updatedTanks=tanks.map((tank)=>{
         
@@ -71,58 +72,30 @@ const TankContainer = () => {
     console.log("Water Level Equalsss.....");
       return;
   }
-  
-    let percentToSplit =  calculateEqualTankPercentages(totalTankWater,tanks.length)
-    let percentToSplitTemp =  calculateEqualTankPercentages(totalTankWater,tanks.length)
-
-     
-   // let percentToSplit = (percentToSplit_ / 3).toFixed(1)
-
-    const FixPercent=(percentToSplit / 3).toFixed(1);
-    const FixPercentTemp=(FixPercent / 3).toFixed(1);
-
-     console.log("percentToSplit",FixPercent,FixPercentTemp)
- 
-     interalvalId.current= setInterval(()=>{
-      
-    console.log("tanks",tanks);
-        
-       setTanks((tanks)=>{
-         
-        const updatedTanks =  tanks.map((tank) => {
-            
-          const tankHeight = Number(tank.height);
-          const isClick=pressedButtonid==tank.id;
-           const updatedLevel=getPercentToAdd(Number(tankHeight),isClick,tanks.length,Number(percentToSplitTemp))
-           
-           console.log("---"+updatedLevel,percentToSplitTemp);
-
-             return {
-            ...tank,
-            height: updatedLevel,
-          };
-        });
-          
-        let areWaterLevelsEqual=true;
-        for(let i=0;i<updatedTanks.length-1;i++){
-          if(updatedTanks[0]?.height!=updatedTanks[i+1]?.height){
-            areWaterLevelsEqual=false
-          }
-         }
-            
-         if(areWaterLevelsEqual){
-          console.log("Stopping the Settling ,clear",interalvalId.current)
-          clearInterval(interalvalId.current)
-          setSettleOn(false)
-        }   
-        return updatedTanks
-       })
- 
-       percentToSplit= percentToSplit-FixPercent;
-      console.log("holder",percentToSplit);
    
-       
-    },1000);
+     
+    interalvalId.current=  setInterval(()=>{
+    
+      setTanks((preTanks) => {
+
+        console.log('preTanks',preTanks,areTanksEqual(preTanks))
+        if(areTanksEqual(preTanks)){
+          clearInterval(interalvalId.current);
+          return preTanks
+        }
+        // Extract heights
+        const temp = preTanks.map(({ height }) => height);
+      
+        // Redistribute water
+        const updatedTanks = redistributeWaterOnce(temp, 30);
+      
+        // Return a new array with updated heights
+        return preTanks.map((tank, index) => ({
+          ...tank, // Spread the existing tank properties
+          height: updatedTanks[index], // Update the height
+        }));
+      });
+      },1000);
       
     return () => {
        
@@ -132,11 +105,13 @@ const TankContainer = () => {
 
    },[settleOn])
 
+   console.log("buttonPressed",buttonPressed)
    useEffect(()=>{
    
      
      if(buttonPressed){
       intervalId=setInterval(()=>{
+        console.log("button pressed",pressedButtonid);
         const height=tanks[pressedButtonid].height+25;
          increaseHeight(pressedButtonid,height)
        },1000);
@@ -156,7 +131,7 @@ const TankContainer = () => {
 
   const onButtonRelease=(id)=>{
     /**when use releasses the button */
-     
+     console.log('relreasex');
     setButtonPressed(false);
     //setPressedButtonId(null);
     setSettleOn(true)
@@ -182,6 +157,41 @@ const TankContainer = () => {
      setPressedButtonId(id)
     
   }
+
+  function redistributeWaterOnce(tanks, percentage = 5) {
+    const numTanks = tanks.length; // Number of tanks
+
+    // Step 1: Calculate the amount to redistribute for each tank
+    const redistribution = tanks.map(tank => tank * (percentage / 100));
+ 
+ 
+    // Step 2: Calculate the total amount redistributed and distribute evenly
+    const totalRedistribution = redistribution.reduce((sum, value) => sum + value, 0);
+    const redistributionPerTank = totalRedistribution / numTanks;
+
+    // Step 3: Update each tank's water level (one redistribution step)
+    const updatedTanks = tanks.map((tank, index) => {
+     return   tank - redistribution[index] + redistributionPerTank
+    }
+    );
+
+    // Round to two decimal places for better readability
+    return updatedTanks.map(tank => Math.round(tank * 100) / 100);
+}
+function areTanksEqual(tanks, tolerance = 0.10) {
+  if (tanks.length === 0) {
+    return true; // No tanks to compare
+  }
+
+  // Get the height of the first tank
+  const firstHeight = tanks[0].height;
+
+  // Check if all tank heights are approximately equal within the tolerance
+  return tanks.every(tank => Math.abs(tank.height - firstHeight) <= tolerance);
+}
+
+
+
   
    return (
     <div style={{display:'flex',gap:'10px'}}>
